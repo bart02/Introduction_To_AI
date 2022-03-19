@@ -9,14 +9,14 @@ public class Environment {
         clean();
     }
 
-    public Environment(int size, Input in) {
+    public Environment(int size, Input in) throws Exception {
         this(size);
-        setHarry(in.harry);
         setFilch(in.filch);
         setCat(in.cat);
         setBook(in.book);
         setCloak(in.cloak);
         setExit(in.exit);
+        setHarry(in.harry, in.scenario);
     }
 
     public void clean() {
@@ -36,6 +36,10 @@ public class Environment {
                 map[i][j].source = null;
             }
         }
+    }
+
+    public boolean checkLose() {
+        return this.get(actor.getPose()).type < (actor.hasCloak ? -1 : 0);
     }
 
     public void setEnemy(int x, int y, int zone) {
@@ -71,10 +75,12 @@ public class Environment {
         map[c.x][c.y].type = 4;
     }
 
-    public void setHarry(Point c) {
+    public void setHarry(Point c, int scenario) throws Exception {
         map[c.x][c.y].type = 1;
         map[c.x][c.y].g = 0;
-        actor = new Actor(c, this);
+        if (scenario == 1) actor = new FirstActor(c, this);
+        else if (scenario == 2) actor = new SecondActor(c, this);
+        else throw new Exception("Invalid scenario");
     }
 
     public Cell get(Point p) {

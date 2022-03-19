@@ -3,7 +3,7 @@ public class Main {
         Input input = new Input();
         input.readFromStdin();
 
-        Algo algo = new BacktrackingAlgo(new Environment(9, input));
+        Algo algo = new AStarAlgo(new Environment(9, input));
         Output out = algo.run();
 
         out.print();

@@ -1,7 +1,7 @@
-public class Actor {
-    private Point pose;
-    private final Point initialPose;
-    private Environment env;
+public abstract class Actor {
+    protected Point pose;
+    protected final Point initialPose;
+    protected Environment env;
     public boolean hasBook = false;
     public boolean hasCloak = false;
 
@@ -13,40 +13,36 @@ public class Actor {
         this.env = env;
     }
 
-    public void go(Point vector) throws Exception {
-        go(vector.x, vector.y);
-    }
+    public abstract boolean canGo(int dx, int dy);
 
     public void go(int dx, int dy) throws Exception {
         if (!canGo(dx, dy)) throw new Exception("Can't go here");
         Point old = new Point(pose);
         pose.translate(dx, dy);
         env.get(pose).source = old;
-    }
-
-    public void move(Point vector) throws Exception {
-        move(vector.x, vector.y);
+        if (env.checkLose()) throw new Exception("Lose!");
     }
 
     public void move(int x, int y) throws Exception {
         pose.move(x, y);
-    }
-
-    public void goBack() throws Exception {
-        Point old = new Point(pose);
-        pose.move(env.get(pose).source.x, env.get(pose).source.y);
+        if (env.checkLose()) throw new Exception("Lose!");
     }
 
     public boolean canGo(Point vector){
         return canGo(vector.x, vector.y);
     }
 
-    public boolean canGo(int dx, int dy){
-        Point n = pose.translateNew(dx, dy);
-        if (n.x < 0 || n.y < 0 || n.x >= env.getSize() || n.y >= env.getSize()) return false;
-        if (env.get(pose).source != null && env.get(pose).source.equals(n)) return false;
-        if (env.get(n).source != null) return false;
-        return env.get(n).type >= (hasCloak ? -1 : 0);
+    public void go(Point vector) throws Exception {
+        go(vector.x, vector.y);
+    }
+
+    public void move(Point vector) throws Exception {
+        move(vector.x, vector.y);
+    }
+
+    public void goBack() throws Exception {
+        Point old = new Point(pose);
+        pose.move(env.get(pose).source.x, env.get(pose).source.y);
     }
 
     public Cell cell(){
