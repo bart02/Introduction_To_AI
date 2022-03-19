@@ -1,17 +1,13 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AStarAlgo {
-    private final Environment env;
-    private final Actor actor;
-
+public class AStarAlgo extends Algo {
     private Point exit = null;
     private Point book = null;
     private Point cloak = null;
 
     public AStarAlgo(Environment env) {
-        this.env = env;
-        actor = env.actor;
+        super(env);
     }
 
     private Point findMinPoint(boolean useHeuristic) {
@@ -111,6 +107,7 @@ public class AStarAlgo {
         return paths.stream().flatMap(Collection::stream).collect(Collectors.toList());
     }
 
+    @Override
     public Output run() throws Exception {
         findAll();
 
