@@ -5,9 +5,9 @@ public class Output {
     private String algo_name;
     private String outcome;
     private List<Point> path;
-    private long time;
+    private double time;
 
-    public Output(Environment env, String algo_name, String outcome, List<Point> path, long time) {
+    public Output(Environment env, String algo_name, String outcome, List<Point> path, double time) {
         this.env = env;
         this.algo_name = algo_name;
         this.outcome = outcome;
