@@ -109,6 +109,8 @@ public class AStarAlgo extends Algo {
 
     @Override
     public Output run() throws Exception {
+        long start_time = System.nanoTime();
+
         findAll();
 
         ArrayList<List<Point>> paths = new ArrayList<>();
@@ -120,12 +122,14 @@ public class AStarAlgo extends Algo {
 
         List<Point> min_path = Collections.min(paths, Comparator.comparingInt(List::size));
 
+        long end_time = System.nanoTime();
+
         return new Output(
                 env,
                 "A*",
                 "Win",
                 min_path,
-                0
+                ((end_time - start_time) / 1000000000.0)
         );
     }
 }

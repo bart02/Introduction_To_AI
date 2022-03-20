@@ -13,6 +13,8 @@ public class BacktrackingAlgo extends Algo {
 
     @Override
     public Output run() throws Exception {
+        long start_time = System.nanoTime();
+
         while (true) {
             Point goTo = null;
             for (Point p : Actor.goPriority) {
@@ -59,12 +61,13 @@ public class BacktrackingAlgo extends Algo {
             npassed.push(passed.pop());
         }
 
+        long end_time = System.nanoTime();
         return new Output(
                 env,
                 "Backtracking",
                 "Win",
                 npassed,
-                0
+                ((end_time - start_time)/ 1000000000.0)
         );
     }
 }
