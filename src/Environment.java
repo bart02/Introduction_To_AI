@@ -98,10 +98,10 @@ public class Environment {
 
     public void print(Point p) {
         StringBuilder s = new StringBuilder();
-        for (int i = size-1; i >= 0; i--) {
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (p != null && p.equals(new Point(j,i))) s.append("#");
-                else s.append(map[j][i].type);
+                if (p != null && p.equals(new Point(i,j))) s.append("#");
+                else s.append(map[i][j].type);
                 s.append("\t");
             }
             s.append("\n");
