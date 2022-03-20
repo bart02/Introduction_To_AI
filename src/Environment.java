@@ -42,24 +42,25 @@ public class Environment {
         return this.get(actor.getPose()).type < (actor.hasCloak ? -1 : 0);
     }
 
-    public void setEnemy(int x, int y, int zone) {
-        int leftup_corner_x = x - zone;
-        int leftup_corner_y = y - zone;
-        int rightdown_corner_x = x + zone;
-        int rightdown_corner_y = y + zone;
+    public void setEnemy(int x, int y, int zone) throws Exception {
+        int leftup_corner_x = Math.max(0, x - zone);
+        int leftup_corner_y = Math.max(0, y - zone);
+        int rightdown_corner_x = Math.min(8, x + zone);
+        int rightdown_corner_y = Math.min(8, y + zone);
         for (int i = leftup_corner_x; i <= rightdown_corner_x; i++) {
             for (int j = leftup_corner_y; j <= rightdown_corner_y; j++) {
+                if (map[i][j].type != 0 && map[i][j].type != -1) throw new Exception("Busy");
                 map[i][j].type = -1;
             }
         }
         map[x][y].type = -2;
     }
 
-    public void setFilch(Point c) {
+    public void setFilch(Point c) throws Exception {
         setEnemy(c.x, c.y, 2);
     }
 
-    public void setCat(Point c) {
+    public void setCat(Point c) throws Exception {
         setEnemy(c.x, c.y, 1);
     }
 
@@ -97,10 +98,10 @@ public class Environment {
 
     public void print(Point p) {
         StringBuilder s = new StringBuilder();
-        for (int i = 0; i < size; i++) {
+        for (int i = size-1; i >= 0; i--) {
             for (int j = 0; j < size; j++) {
-                if (p != null && p.equals(new Point(i,j))) s.append("#");
-                else s.append(map[i][j].type);
+                if (p != null && p.equals(new Point(j,i))) s.append("#");
+                else s.append(map[j][i].type);
                 s.append("\t");
             }
             s.append("\n");

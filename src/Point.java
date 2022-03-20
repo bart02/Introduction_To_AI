@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Point extends java.awt.Point {
     public Point(java.awt.Point p) {
         super(p);
@@ -5,6 +7,11 @@ public class Point extends java.awt.Point {
 
     public Point(int x, int y) {
         super(x, y);
+    }
+
+    public static Point generate() {
+        Random random = new Random();
+        return new Point(random.nextInt(8), random.nextInt(8));
     }
 
     public void translate(Point p) {
