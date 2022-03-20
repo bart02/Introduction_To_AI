@@ -11,12 +11,12 @@ public class Environment {
 
     public Environment(int size, Input in) throws Exception {
         this(size);
-        setFilch(in.filch);
-        setCat(in.cat);
-        setBook(in.book);
-        setCloak(in.cloak);
-        setExit(in.exit);
-        setHarry(in.harry, in.scenario);
+        setFilch(new Point(in.filch));
+        setCat(new Point(in.cat));
+        setBook(new Point(in.book));
+        setCloak(new Point(in.cloak));
+        setExit(new Point(in.exit));
+        setHarry(new Point(in.harry), in.scenario);
     }
 
     public void clean() {

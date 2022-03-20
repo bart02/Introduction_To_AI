@@ -58,8 +58,8 @@ public class AStarAlgo extends Algo {
             if (actor.cell().type == 4) {
                 exit = new Point(actor.getPose());
             }
-            env.printWeight(false);
-            System.out.println();
+//            env.printWeight(false);
+//            System.out.println();
 
             if (book != null && exit != null && cloak != null) break;
         }
@@ -90,8 +90,8 @@ public class AStarAlgo extends Algo {
             researchNearestCells(end);
             actor.cell().closed = true;
 
-            env.printWeight(true);
-            System.out.println();
+//            env.printWeight(true);
+//            System.out.println();
         } while (!actor.getPose().equals(end));
 
         return getPath(end);

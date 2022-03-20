@@ -29,7 +29,7 @@ public class BacktrackingAlgo extends Algo {
                 bookTaken = false;
                 cloakTaken = false;
             } else {
-                System.out.println("back");
+//                System.out.println("back");
                 actor.goBack();
                 if (bookTaken || cloakTaken) passed.push(new Point(actor.getPose()));
                 else passed.pop();
@@ -47,7 +47,7 @@ public class BacktrackingAlgo extends Algo {
             if (actor.cell().type == 4) {
                 exit = new Point(actor.getPose());
             }
-            env.printCurrentState();
+//            env.printCurrentState();
             if (actor.cell().type == 4 && actor.hasBook) break;
         }
 

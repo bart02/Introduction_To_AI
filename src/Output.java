@@ -20,7 +20,7 @@ public class Output {
         System.out.println("Outcome: " + outcome);
         System.out.println("Number of steps: " + path.size());
         System.out.println("Path: " + path);
-        System.out.println("Time: " + time);
+        System.out.println("Time: " + time + " s.");
     }
 
     @Override

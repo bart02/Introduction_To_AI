@@ -66,7 +66,7 @@ public class Input {
             }
             break;
         }
-        scenario = 2;
+        scenario = 1;
     }
 
     private Point getCoordsFromString(String s) throws Exception {
