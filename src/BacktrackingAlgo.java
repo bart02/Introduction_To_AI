@@ -17,7 +17,7 @@ public class BacktrackingAlgo extends Algo {
 
         while (true) {
             Point goTo = null;
-            for (Point p : Actor.goPriority) {
+            for (Point p : actor.goPriority) {
                 if (actor.canGo(p)) {
                     goTo = p;
                     break;

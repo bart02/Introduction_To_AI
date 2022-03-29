@@ -3,6 +3,9 @@ public class SecondActor extends Actor {
 
     public SecondActor(Point pose, Environment env) {
         super(pose, env);
+
+        goPriority = new Point[]{new Point(1, 0), new Point(0, 1), new Point(-1, 0), new Point(0, -1), new Point(1,1), new Point(1,-1), new Point(-1,-1), new Point(-1,1)};
+
         map = new int[env.getSize()][env.getSize()];
         for (int i = 0; i < env.getSize(); i++) {
             for (int j = 0; j < env.getSize(); j++) {

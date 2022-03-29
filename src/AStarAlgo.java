@@ -26,7 +26,7 @@ public class AStarAlgo extends Algo {
     }
 
     private void researchNearestCells(Point end) {
-        for (Point p : Actor.goPriority) {
+        for (Point p : actor.goPriority) {
             if (actor.canGo(p)) {
                 Cell goTo = env.get(actor.getPose().translateNew(p));
                 goTo.source = new Point(actor.getPose());
