@@ -63,7 +63,7 @@ public class AStarAlgo extends Algo {
 
             if (book != null && exit != null && cloak != null) break;
         }
-        if (book == null || exit == null) throw new Exception("Book and exit is not available");
+        if (book == null || exit == null) throw new Exception("Book and/or exit is not available");
     }
 
     private List<Point> getPath(Point p) {
