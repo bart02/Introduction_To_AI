@@ -1,3 +1,4 @@
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class BacktrackingAlgo extends Algo {
@@ -32,14 +33,21 @@ public class BacktrackingAlgo extends Algo {
 //                System.out.println("back");
                 actor.goBack();
                 if (bookTaken || cloakTaken) passed.push(new Point(actor.getPose()));
-                else passed.pop();
+                else {
+                    try {
+                        passed.pop();
+                    } catch (EmptyStackException e) {
+                        throw new Exception("Book and/or exit is not available");
+                    }
+
+                }
             }
 
-            if (actor.cell().type == 2) {
+            if (actor.cell().type == 2 && !actor.hasCloak) {
                 cloakTaken = true;
                 actor.hasCloak = true;
             }
-            if (actor.cell().type == 3) {
+            if (actor.cell().type == 3 && !actor.hasBook) {
                 bookTaken = true;
                 actor.hasBook = true;
                 if (exit != null) break;
