@@ -63,7 +63,7 @@ public class AStarAlgo extends Algo {
 
             if (book != null && exit != null && cloak != null) break;
         }
-        if (book == null || exit == null) throw new Exception("Book and/or exit is not available");
+        if (book == null || exit == null) throw new GameException("Book and/or exit is not available");
     }
 
     private List<Point> getPath(Point p) {
@@ -84,7 +84,7 @@ public class AStarAlgo extends Algo {
 
         do {
             Point minPoint = findMinPoint(true);
-            if (minPoint == null) throw new Exception("There are no such way");
+            if (minPoint == null) throw new GameException("There are no such way");
             actor.move(minPoint);
 
             researchNearestCells(end);

@@ -16,16 +16,16 @@ public abstract class Actor {
     public abstract boolean canGo(int dx, int dy);
 
     public void go(int dx, int dy) throws Exception {
-        if (!canGo(dx, dy)) throw new Exception("Can't go here");
+        if (!canGo(dx, dy)) throw new GameException("Actor can't go here");
         Point old = new Point(pose);
         pose.translate(dx, dy);
         env.get(pose).source = old;
-        if (env.checkLose()) throw new Exception("Lose!");
+        if (env.checkLose()) throw new GameException("Actor has died");
     }
 
     public void move(int x, int y) throws Exception {
         pose.move(x, y);
-        if (env.checkLose()) throw new Exception("Lose!");
+        if (env.checkLose()) throw new GameException("Actor has died");
     }
 
     public boolean canGo(Point vector){
@@ -42,7 +42,11 @@ public abstract class Actor {
 
     public void goBack() throws Exception {
         Point old = new Point(pose);
-        pose.move(env.get(pose).source.x, env.get(pose).source.y);
+        try {
+            pose.move(env.get(pose).source.x, env.get(pose).source.y);
+        } catch (NullPointerException e) {
+            throw new GameException("Actor can't move");
+        }
     }
 
     public Cell cell(){

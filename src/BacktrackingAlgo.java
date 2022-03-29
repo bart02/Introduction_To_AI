@@ -34,7 +34,7 @@ public class BacktrackingAlgo extends Algo {
                     try {
                         passed.pop();
                     } catch (EmptyStackException e) {
-                        throw new Exception("Book and/or exit is not available");
+                        throw new GameException("Book and/or exit is not available");
                     }
 
                 }
