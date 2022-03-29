@@ -79,8 +79,8 @@ public class Environment {
     public void setHarry(Point c, int scenario) throws Exception {
         map[c.x][c.y].type = 1;
         map[c.x][c.y].g = 0;
-        if (scenario == 1) actor = new FirstActor(c, this);
-        else if (scenario == 2) actor = new SecondActor(c, this);
+        if (scenario == 1) actor = new Actor.FirstActor(c, this);
+        else if (scenario == 2) actor = new Actor.SecondActor(c, this);
         else throw new Exception("Invalid scenario");
     }
 
