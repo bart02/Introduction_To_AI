@@ -6,7 +6,6 @@ public class BacktrackingAlgo extends Algo {
     private Point book = null;
     private Point cloak = null;
     Stack<Point> passed = new Stack<>();
-    boolean bookTaken, cloakTaken;
 
     public BacktrackingAlgo(Environment env) {
         super(env);
@@ -27,12 +26,10 @@ public class BacktrackingAlgo extends Algo {
             if (goTo != null) {
                 actor.go(goTo);
                 passed.push(new Point(actor.getPose()));
-                bookTaken = false;
-                cloakTaken = false;
             } else {
 //                System.out.println("back");
                 actor.goBack();
-                if (bookTaken || cloakTaken) passed.push(new Point(actor.getPose()));
+                if (passed.peek().equals(exit) || passed.peek().equals(cloak) || passed.peek().equals(book) ) passed.push(new Point(actor.getPose()));
                 else {
                     try {
                         passed.pop();
@@ -44,11 +41,11 @@ public class BacktrackingAlgo extends Algo {
             }
 
             if (actor.cell().type == 2 && !actor.hasCloak) {
-                cloakTaken = true;
+                cloak = new Point(actor.getPose());
                 actor.hasCloak = true;
             }
             if (actor.cell().type == 3 && !actor.hasBook) {
-                bookTaken = true;
+                book = new Point(actor.getPose());
                 actor.hasBook = true;
                 if (exit != null) break;
             }
