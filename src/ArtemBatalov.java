@@ -1,7 +1,7 @@
-public class Main {
+public class ArtemBatalov {
     public static void main(String[] args) throws Exception {
         Input input = new Input();
-        input.generate();
+        input.readFromStdin();
 
         try {
             Algo algo0 = new BacktrackingAlgo(new Environment(9, input));
