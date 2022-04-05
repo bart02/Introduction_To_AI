@@ -9,7 +9,7 @@ public class Environment {
         clean();
     }
 
-    public Environment(int size, Input in) throws Exception {
+    public Environment(int size, Input in) throws InputException {
         this(size);
         setFilch(new Point(in.filch));
         setCat(new Point(in.cat));
@@ -42,25 +42,25 @@ public class Environment {
         return this.get(actor.getPose()).type < (actor.hasCloak ? -1 : 0);
     }
 
-    public void setEnemy(int x, int y, int zone) throws Exception {
+    public void setEnemy(int x, int y, int zone) throws InputException {
         int leftup_corner_x = Math.max(0, x - zone);
         int leftup_corner_y = Math.max(0, y - zone);
         int rightdown_corner_x = Math.min(8, x + zone);
         int rightdown_corner_y = Math.min(8, y + zone);
         for (int i = leftup_corner_x; i <= rightdown_corner_x; i++) {
             for (int j = leftup_corner_y; j <= rightdown_corner_y; j++) {
-                if (map[i][j].type != 0 && map[i][j].type != -1) throw new Exception("Busy");
+                if (map[i][j].type != 0 && map[i][j].type != -1) throw new InputException("The cell is busy");
                 map[i][j].type = -1;
             }
         }
         map[x][y].type = -2;
     }
 
-    public void setFilch(Point c) throws Exception {
+    public void setFilch(Point c) throws InputException {
         setEnemy(c.x, c.y, 2);
     }
 
-    public void setCat(Point c) throws Exception {
+    public void setCat(Point c) throws InputException {
         setEnemy(c.x, c.y, 1);
     }
 
@@ -76,12 +76,12 @@ public class Environment {
         map[c.x][c.y].type = 4;
     }
 
-    public void setHarry(Point c, int scenario) throws Exception {
+    public void setHarry(Point c, int scenario) throws InputException {
         map[c.x][c.y].type = 1;
         map[c.x][c.y].g = 0;
         if (scenario == 1) actor = new Actor.FirstActor(c, this);
         else if (scenario == 2) actor = new Actor.SecondActor(c, this);
-        else throw new Exception("Invalid scenario");
+        else throw new InputException("Invalid scenario");
     }
 
     public Cell get(Point p) {

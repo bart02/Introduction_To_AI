@@ -9,7 +9,7 @@ public class Input {
     public Point exit;
     public int scenario;
 
-    public void readFromStdin() throws Exception {
+    public void readFromStdin() throws InputException {
         Scanner sc = new Scanner(System.in);
         harry = getCoordsFromString(sc.next());
         filch = getCoordsFromString(sc.next());
@@ -23,12 +23,17 @@ public class Input {
     public void readFromFile() {
     }
 
-    public void generate() throws Exception {
+    public void generate() {
         Environment env;
         while (true) {
             env = new Environment(9);
-            harry = new Point(0, 0);
-            env.setHarry(harry, 1);
+
+            try {
+                harry = new Point(0, 0);
+                env.setHarry(harry, 1);
+            } catch (Exception ignored) {
+                continue;
+            }
 
             try {
                 filch = Point.generate();
@@ -39,28 +44,28 @@ public class Input {
 
             try {
                 cat = Point.generate();
-                env.setFilch(cat);
+                env.setCat(cat);
             } catch (Exception ignored) {
                 continue;
             }
 
             try {
                 book = Point.generate();
-                env.setFilch(book);
+                env.setBook(book);
             } catch (Exception ignored) {
                 continue;
             }
 
             try {
                 cloak = Point.generate();
-                env.setFilch(cloak);
+                env.setCloak(cloak);
             } catch (Exception ignored) {
                 continue;
             }
 
             try {
                 exit = Point.generate();
-                env.setFilch(exit);
+                env.setExit(exit);
             } catch (Exception ignored) {
                 continue;
             }
@@ -69,10 +74,10 @@ public class Input {
         scenario = 1;
     }
 
-    private Point getCoordsFromString(String s) throws Exception {
+    private Point getCoordsFromString(String s) throws InputException {
         // TODO: Rewrite to regexp
         String[] splitted = s.replace("[", "").replace("]", "").split(",");
-        if (splitted.length != 2) throw new Exception("Check the input format");
+        if (splitted.length != 2) throw new InputException("Check the input format");
         return new Point(Integer.parseInt(splitted[0]), Integer.parseInt(splitted[1]));
     }
 

@@ -12,7 +12,7 @@ public class BacktrackingAlgo extends Algo {
     }
 
     @Override
-    public Output run() throws Exception {
+    public Output run() throws GameException {
         long start_time = System.nanoTime();
 
         while (true) {
@@ -27,7 +27,6 @@ public class BacktrackingAlgo extends Algo {
                 actor.go(goTo);
                 passed.push(new Point(actor.getPose()));
             } else {
-//                System.out.println("back");
                 actor.goBack();
                 if (passed.peek().equals(exit) || passed.peek().equals(cloak) || passed.peek().equals(book) ) passed.push(new Point(actor.getPose()));
                 else {
@@ -52,7 +51,6 @@ public class BacktrackingAlgo extends Algo {
             if (actor.cell().type == 4) {
                 exit = new Point(actor.getPose());
             }
-//            env.printCurrentState();
             if (actor.cell().type == 4 && actor.hasBook) break;
         }
 

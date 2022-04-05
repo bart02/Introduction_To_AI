@@ -10,6 +10,12 @@ public class AStarAlgo extends Algo {
         super(env);
     }
 
+    /**
+     * Find the min-weight opened point
+     *
+     * @param useHeuristic see {@link Cell#getWeight(boolean)} and {@link AStarAlgo#researchNearestCells(Point)}
+     * @return {@link Point} object, that has min-weight
+     */
     private Point findMinPoint(boolean useHeuristic) {
         int minWeight = (Integer.MAX_VALUE / 3);
         Point minPoint = null;
@@ -25,6 +31,11 @@ public class AStarAlgo extends Algo {
         return minPoint;
     }
 
+    /**
+     * Method researches all possible ways from {@link Actor#goPriority}
+     *
+     * @param end if not null, will use {@link Point#manhattanDistance(Point)} as heuristic
+     */
     private void researchNearestCells(Point end) {
         for (Point p : actor.goPriority) {
             if (actor.canGo(p)) {
@@ -36,7 +47,12 @@ public class AStarAlgo extends Algo {
         }
     }
 
-    private void findAll() throws Exception {
+    /**
+     * The method called first for scanning the field and finding coordinates of all game stuff
+     *
+     * @throws GameException in case of lose or not available book or exit
+     */
+    private void scan() throws GameException {
         exit = null;
         book = null;
         cloak = null;
@@ -49,23 +65,20 @@ public class AStarAlgo extends Algo {
             researchNearestCells(null);
             actor.cell().closed = true;
 
-            if (actor.cell().type == 2) {
-                cloak = new Point(actor.getPose());
-            }
-            if (actor.cell().type == 3) {
-                book = new Point(actor.getPose());
-            }
-            if (actor.cell().type == 4) {
-                exit = new Point(actor.getPose());
-            }
-//            env.printWeight(false);
-//            System.out.println();
-
+            if (actor.cell().type == 2) cloak = new Point(actor.getPose());
+            if (actor.cell().type == 3) book = new Point(actor.getPose());
+            if (actor.cell().type == 4) exit = new Point(actor.getPose());
             if (book != null && exit != null && cloak != null) break;
         }
         if (book == null || exit == null) throw new GameException("Book and/or exit is not available");
     }
 
+    /**
+     * Iterates for each point in path (using {@link Cell#source}) and get the final path
+     *
+     * @param p End point, from which we will start iterating
+     * @return list of {@link Point}s, not including start point
+     */
     private List<Point> getPath(Point p) {
         Stack<Point> path = new Stack<>();
         do {
@@ -77,7 +90,15 @@ public class AStarAlgo extends Algo {
         return path;
     }
 
-    private List<Point> findPath(Point start, Point end) throws Exception {
+    /**
+     * A* implementation for find the shortest path (with heuristic)
+     *
+     * @param start path's start point
+     * @param end path's end point
+     * @return path - list of {@link Point}s
+     * @throws GameException in case of no way between start and end
+     */
+    private List<Point> findPath(Point start, Point end) throws GameException {
         env.cleanWeights();
         env.get(start).g = 0;
         env.get(start).h = start.manhattanDistance(end);
@@ -89,29 +110,29 @@ public class AStarAlgo extends Algo {
 
             researchNearestCells(end);
             actor.cell().closed = true;
-
-//            env.printWeight(true);
-//            System.out.println();
         } while (!actor.getPose().equals(end));
 
         return getPath(end);
     }
 
-    private List<Point> findPath(Point... start) throws Exception {
+    /**
+     * VarArg function for {@link AStarAlgo#findPath(Point, Point)}
+     */
+    private List<Point> findPath(Point... p) throws GameException {
         ArrayList<List<Point>> paths = new ArrayList<>();
         actor.hasCloak = false;
-        for (int i = 0; i < start.length - 1; i++) {
-            if (env.get(start[i]).type == 2) actor.hasCloak = true;
-            paths.add(findPath(start[i], start[i + 1]));
+        for (int i = 0; i < p.length - 1; i++) {
+            if (env.get(p[i]).type == 2) actor.hasCloak = true;
+            paths.add(findPath(p[i], p[i + 1]));
         }
         return paths.stream().flatMap(Collection::stream).collect(Collectors.toList());
     }
 
     @Override
-    public Output run() throws Exception {
+    public Output run() throws GameException {
         long start_time = System.nanoTime();
 
-        findAll();
+        scan();
 
         ArrayList<List<Point>> paths = new ArrayList<>();
         paths.add(findPath(actor.getInitialPose(), book, exit));
