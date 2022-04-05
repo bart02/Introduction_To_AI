@@ -28,13 +28,10 @@ public class BacktrackingAlgo extends Algo {
                 passed.push(new Point(actor.getPose()));
             } else {
                 actor.goBack();
+                if (passed.empty()) throw new GameException("Book and/or exit is not available");
                 if (passed.peek().equals(exit) || passed.peek().equals(cloak) || passed.peek().equals(book) ) passed.push(new Point(actor.getPose()));
                 else {
-                    try {
-                        passed.pop();
-                    } catch (EmptyStackException e) {
-                        throw new GameException("Book and/or exit is not available");
-                    }
+                    passed.pop();
                 }
             }
 
