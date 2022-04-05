@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Input {
@@ -8,19 +9,21 @@ public class Input {
     public Point cloak;
     public Point exit;
     public int scenario;
+    Scanner scanner;
 
-    public void readFromStdin() throws InputException {
-        Scanner sc = new Scanner(System.in);
-        harry = getCoordsFromString(sc.next());
-        filch = getCoordsFromString(sc.next());
-        cat = getCoordsFromString(sc.next());
-        book = getCoordsFromString(sc.next());
-        cloak = getCoordsFromString(sc.next());
-        exit = getCoordsFromString(sc.next());
-        scenario = sc.nextInt();
+    public Input() {
+        scanner = new Scanner(System.in);
     }
 
-    public void readFromFile() {
+    public void readFromStdin() throws InputException {
+        System.out.println("Please write input data (2 strings):");
+        harry = getCoordsFromString(scanner.next());
+        filch = getCoordsFromString(scanner.next());
+        cat = getCoordsFromString(scanner.next());
+        book = getCoordsFromString(scanner.next());
+        cloak = getCoordsFromString(scanner.next());
+        exit = getCoordsFromString(scanner.next());
+        scenario = scanner.nextInt();
     }
 
     public void generate() {
@@ -71,7 +74,27 @@ public class Input {
             }
             break;
         }
-        scenario = 1;
+
+        Random random = new Random();
+        scenario = random.nextInt(2) + 1;
+
+        System.out.println(this);
+        System.out.println();
+    }
+
+    public void interactive() throws InputException {
+        System.out.print("Write G for using generated input (default), or I for reading from stdin: ");
+        switch (scanner.nextLine()) {
+            case "I":
+                readFromStdin();
+                break;
+            case "G":
+            case "":
+                generate();
+                break;
+            default:
+                throw new InputException("Please, use only G, I or empty");
+        }
     }
 
     private Point getCoordsFromString(String s) throws InputException {

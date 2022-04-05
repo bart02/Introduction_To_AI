@@ -1,13 +1,7 @@
 public class ArtemBatalov {
     public static void main(String[] args) throws Exception {
         Input input = new Input();
-        try {
-            input.readFromStdin();
-        } catch (Exception e) {
-            System.out.println("Check input!");
-            System.exit(-1);
-        }
-
+        input.interactive();
 
         try {
             Algo algo0 = new BacktrackingAlgo(new Environment(9, input));
@@ -16,7 +10,6 @@ public class ArtemBatalov {
             System.out.println("Algorithm: Backtracking");
             System.out.println("Outcome: Lose (" + e.getMessage() + ")");
         }
-
 
         System.out.println();
 
