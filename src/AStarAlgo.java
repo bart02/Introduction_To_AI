@@ -65,7 +65,13 @@ public class AStarAlgo extends Algo {
             researchNearestCells(null);
             actor.cell().closed = true;
 
-            if (actor.cell().type == 2) cloak = new Point(actor.getPose());
+            if (actor.cell().type == 2 && !actor.hasCloak) {
+                cloak = new Point(actor.getPose());
+                actor.hasCloak = true;
+                env.cleanWeights();
+                env.get(cloak).g = 0;
+                continue;
+            }
             if (actor.cell().type == 3) book = new Point(actor.getPose());
             if (actor.cell().type == 4) exit = new Point(actor.getPose());
             if (book != null && exit != null && cloak != null) break;
@@ -135,11 +141,19 @@ public class AStarAlgo extends Algo {
         scan();
 
         ArrayList<List<Point>> paths = new ArrayList<>();
-        paths.add(findPath(actor.getInitialPose(), book, exit));
         if (cloak != null) {
-            paths.add(findPath(actor.getInitialPose(), cloak, book, exit));
-            paths.add(findPath(actor.getInitialPose(), book, cloak, exit));
+            try {
+                paths.add(findPath(actor.getInitialPose(), cloak, book, exit));
+            } catch (GameException ignored) {}
+            try {
+                paths.add(findPath(actor.getInitialPose(), book, cloak, exit));
+            } catch (GameException ignored) {}
         }
+        try {
+            paths.add(findPath(actor.getInitialPose(), book, exit));
+        } catch (GameException ignored) {}
+
+        if (paths.isEmpty()) throw new GameException("There are no such way");
 
         List<Point> min_path = Collections.min(paths, Comparator.comparingInt(List::size));
 
