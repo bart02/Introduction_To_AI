@@ -84,7 +84,7 @@ public abstract class Actor {
         try {
             pose.move(env.get(pose).source.x, env.get(pose).source.y);
         } catch (NullPointerException e) {
-            throw new GameException("Actor can't move");
+            throw new GameException("Actor can't move or all field was researched");
         }
     }
 
@@ -122,6 +122,7 @@ public abstract class Actor {
             if (n.x < 0 || n.y < 0 || n.x >= env.getSize() || n.y >= env.getSize()) return false;
             if (env.get(pose).source != null && env.get(pose).source.equals(n)) return false;
             if (env.get(n).source != null) return false;
+            if (n.equals(initialPose)) return false;
             return env.get(n).type >= (hasCloak ? -1 : 0);
         }
     }
@@ -179,6 +180,7 @@ public abstract class Actor {
             if (n.x < 0 || n.y < 0 || n.x >= env.getSize() || n.y >= env.getSize()) return false;
             if (env.get(pose).source != null && env.get(pose).source.equals(n)) return false;
             if (env.get(n).source != null) return false;
+            if (n.equals(initialPose)) return false;
             return map[n.x][n.y] >= (hasCloak ? -1 : 0);
         }
 
