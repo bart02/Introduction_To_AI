@@ -26,7 +26,7 @@ public class Input {
         scenario = scanner.nextInt();
     }
 
-    public void generate() {
+    public void generate(int s) {
         Environment env;
         while (true) {
             env = new Environment(9);
@@ -76,10 +76,15 @@ public class Input {
         }
 
         Random random = new Random();
-        scenario = random.nextInt(2) + 1;
+        if (s == 1 || s == 2) scenario = s;
+        else scenario = random.nextInt(2) + 1;
 
         System.out.println(this);
         System.out.println();
+    }
+
+    public void generate() {
+        generate(-1);
     }
 
     public void interactive() throws InputException {
