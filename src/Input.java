@@ -111,14 +111,6 @@ public class Input {
 
     @Override
     public String toString() {
-        return "Input{" +
-                "harry=" + harry +
-                ", filch=" + filch +
-                ", cat=" + cat +
-                ", book=" + book +
-                ", cloak=" + cloak +
-                ", exit=" + exit +
-                ", scenario=" + scenario +
-                '}';
+        return harry + " " + filch + " " + cat + " " + book + " " + cloak + " " + exit + "\n" + scenario;
     }
 }
